@@ -18,19 +18,30 @@ router.get('/search', function(req, res, next) {
 router.get('/searchMovie', function(req, res, next){
 	res.send("haha I'm a get route.");
 });
-
+	
 router.post('/searchMovie', function(req, res, next) {
 	var movieSearchString = req.body.movieSearch;
-	var queryURL = config.baseUrl+'search/movie?'+config.api_key+'&query='+movieSearchString;
+	var actorSearchString =req.body.actorSearch;
+	var querymovieURL = config.baseUrl+'search/movie?'+config.api_key+'&query='+movieSearchString;
+	var queryactorURL = config.baseUrl+'search/movie?'+config.api_key+'&query='+actorSearchString;
 	// res.send(queryURL);
-	request.get(queryURL, (error, response, searchData)=>{
+	console.log(movieSearchString);
+	request.get(querymovieURL, (error, response, searchData)=>{
 		searchData = JSON.parse(searchData); 
 		res.render('index', {
 			movieData: searchData,
 			imageUrl: config.imageBase
 		});
-	});
+	})
+// 	request.get(queryactorURL, (error, response, searchData)=>{
+// 		searchData = JSON.parse(searchData); 
+// 		res.render('index', {
+// 			movieData: searchData,
+// 			imageUrl: config.imageBase
+// 		})
+// 	})
 });
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
