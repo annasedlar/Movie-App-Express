@@ -11,6 +11,27 @@ var config = {
     api_key: '&api_key=fec8b5ab27b292a68294261bb21b04a5'
 };
 
+router.get('/search', function(req, res, next) {
+	res.render('search', {})
+});
+
+router.get('/searchMovie', function(req, res, next){
+	res.send("haha I'm a get route.");
+});
+
+router.post('/searchMovie', function(req, res, next) {
+	var movieSearchString = req.body.movieSearch;
+	var queryURL = config.baseUrl+'search/movie?'+config.api_key+'&query='+movieSearchString;
+	// res.send(queryURL);
+	request.get(queryURL, (error, response, searchData)=>{
+		searchData = JSON.parse(searchData); 
+		res.render('index', {
+			movieData: searchData,
+			imageUrl: config.imageBase
+		});
+	});
+});
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	request.get(config.baseUrl+config.nowPlayingEP+config.api_key, (err, response, movieData)=>{
